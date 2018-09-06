@@ -4,7 +4,13 @@ const crypto = require('crypto');
 const db = require('../database');
 
 const User = db.define('user', {
-    name: {
+    user_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    username: {
         type: Sequelize.STRING,
         allowNull: false,
         notEmpty: true
@@ -26,26 +32,6 @@ const User = db.define('user', {
         type: Sequelize.STRING
         //defaultValue: /images/default-photo.jpg'
     },
-    memberType: {
-        type: Sequelize.ENUM,
-        values: ['member', 'banned', 'mod', 'admin'],
-        defaultValue: 'member'
-    }
-}, {
-    getterMehods: {
-        isAdmin() {
-            return this.memberType === 'admin';
-        },
-        isMod() {
-            return (this.memberType === 'mod' || this.memberType === 'admin');
-        },
-        isMember() {
-            return this.memberType !== 'banned';
-        },
-        isBanned() {
-            return this.memberType === 'banned';
-        }
-    }
     //add hooks for getting their posted topics, posts, and friends list
     //also need to add a validator/method of some kind to generate password and salt.
 });
